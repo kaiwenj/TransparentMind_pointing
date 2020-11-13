@@ -13,26 +13,26 @@ class TestSignalerModel(unittest.TestCase):
         for key in calculatedDictionary.keys():
             self.assertAlmostEqual(calculatedDictionary[key], expectedDictionary[key], places=places)
                   
-    @data((lambda b, a, s: 1*(a==s), lambda m: 0, lambda b, m: (b, 1*(m==3)+1), [3, 5], {1:1/2, 2:1/2}, 1, {3:0.26894, 5:0.73106}))
+    @data((lambda b, a, s: 1*(a==s), lambda m: 0, lambda b, m: (b, 1*(m==3)+1), [3, 5], 1, {1:1/2, 2:1/2}, 1, {3:0.26894, 5:0.73106}))
     @unpack
-    def testNotChangeBelief(self, getEU, getMCost, getABPrime, messageSpace, b, s, expectedResult):
-        signalerModel=targetCode.SignalerModel(getEU, getMCost, getABPrime, messageSpace)
+    def testNotChangeBelief(self, getEU, getMCost, getABPrime, messageSpace, beta, b, s, expectedResult):
+        signalerModel=targetCode.SignalerModel(getEU, getMCost, getABPrime, messageSpace, beta)
         calculatedResult=signalerModel(b, s)
         self.assertNumericDictAlmostEqual(calculatedResult, expectedResult, 5)
         
-    @data((lambda b, a, s: max(b.values()), lambda m: 0, lambda b, m: ({1: m/10, 2: 1-m/10}, 1*(m==3)+1), [3, 5], {1:1/2, 2:1/2}, 1, 
+    @data((lambda b, a, s: max(b.values()), lambda m: 0, lambda b, m: ({1: m/10, 2: 1-m/10}, 1*(m==3)+1), [3, 5], 1, {1:1/2, 2:1/2}, 1, 
            {3:0.54983, 5:0.45017}))
     @unpack
-    def testChangeBelief(self, getEU, getMCost, getABPrime, messageSpace, b, s, expectedResult):
-        signalerModel=targetCode.SignalerModel(getEU, getMCost, getABPrime, messageSpace)
+    def testChangeBelief(self, getEU, getMCost, getABPrime, messageSpace, beta, b, s, expectedResult):
+        signalerModel=targetCode.SignalerModel(getEU, getMCost, getABPrime, messageSpace, beta)
         calculatedResult=signalerModel(b, s)
         self.assertNumericDictAlmostEqual(calculatedResult, expectedResult, 5)
         
-    @data((lambda b, a, s: max(b.values()), lambda m: 6-m, lambda b, m: ({1: m/10, 2: 1-m/10}, 1*(m==3)+1), [3, 5], {1:1/2, 2:1/2}, 1, 
+    @data((lambda b, a, s: max(b.values()), lambda m: 6-m, lambda b, m: ({1: m/10, 2: 1-m/10}, 1*(m==3)+1), [3, 5], 1, {1:1/2, 2:1/2}, 1, 
            {3:0.14185, 5:0.85815}))
     @unpack
-    def testMessageCost(self, getEU, getMCost, getABPrime, messageSpace, b, s, expectedResult):
-        signalerModel=targetCode.SignalerModel(getEU, getMCost, getABPrime, messageSpace)
+    def testMessageCost(self, getEU, getMCost, getABPrime, messageSpace, beta, b, s, expectedResult):
+        signalerModel=targetCode.SignalerModel(getEU, getMCost, getABPrime, messageSpace, beta)
         calculatedResult=signalerModel(b, s)
         self.assertNumericDictAlmostEqual(calculatedResult, expectedResult, 5)
         
