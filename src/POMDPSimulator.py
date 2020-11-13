@@ -15,5 +15,5 @@ class SimulatePOMDP(object):
         sPrime=np.random.choice(list(sPrimeDistribution.keys()), p=list(sPrimeDistribution.values()))
         r=self.rewardFunction(s, a, sPrime)
         oDistribution={o: self.observationFunction(sPrime, a, o) for o in self.observationSpace}
-        o=np.random.choices(list(oDistribution.keys()), p=list(oDistribution.values()))
+        o=np.random.choice(list(oDistribution.keys()), p=list(oDistribution.values()))
         return (sPrime, r, o)
